@@ -12,10 +12,7 @@ public class GeoHelper {
 	// On calcule le périmètre avec les deux rayons
 	static double perimeterEarthEquator = 2 * Math.PI * radiusEarthEquator;
 	static double perimeterEarthPolar = 2 * Math.PI * radiusEarthPolar;
-	
-	private GeoHelper() {
-		super();
-	}
+
 	
 	/**
 	 * Johann PONSET - 2015
