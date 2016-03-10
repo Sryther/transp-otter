@@ -16,20 +16,20 @@ public class TripService {
 	super();
 	this.trips = trips;
     }
-    
+
     public Trip get(int index) {
 	return this.trips.get(index);
     }
-    
+
     public void remove(int index) {
 	this.trips.remove(index);
     }
-    
+
     public int add(Trip trip) {
 	this.trips.add(trip);
 	return this.trips.size() - 1;
     }
-    
+
     public int size() {
 	return this.trips.size();
     }

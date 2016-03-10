@@ -1,3 +1,9 @@
+/Users/paul/Documents/workspace-sts/TranspOtter/src/com/ynov/transpotter/models/Trip.java
+/Users/paul/Documents/workspace-sts/TranspOtter/src/com/ynov/transpotter/services/TripService.java
 /Users/paul/Documents/workspace-sts/TranspOtter/src/com/ynov/transpotter/models/Coordinates.java
+/Users/paul/Documents/workspace-sts/TranspOtter/src/com/ynov/transpotter/services/User.java
+/Users/paul/Documents/workspace-sts/TranspOtter/src/com/ynov/transpotter/controllers/LoginController.java
+/Users/paul/Documents/workspace-sts/TranspOtter/src/com/ynov/transpotter/models/User.java
+/Users/paul/Documents/workspace-sts/TranspOtter/src/com/ynov/transpotter/controllers/TripController.java
 /Users/paul/Documents/workspace-sts/TranspOtter/src/com/ynov/transpotter/helpers/GeoHelper.java
 /Users/paul/Documents/workspace-sts/TranspOtter/src/com/ynov/transpotter/exceptions/NegativeRadiusException.java

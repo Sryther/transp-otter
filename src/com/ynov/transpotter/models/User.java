@@ -1,16 +1,30 @@
 package com.ynov.transpotter.models;
 
-import java.util.Collection;
+public class User {
+    private String username = "";
+    private String password = "";
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.social.security.SocialUser;
+    public User(String username, String password) {
+	super();
+	
+	this.username = username;
+	this.password = password;
+    }
 
-public class User extends SocialUser {
-	private static final long serialVersionUID = 5034323875945624521L;
+    public String getUsername() {
+        return username;
+    }
 
-	public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, authorities);
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	// TODO implements features
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
 }

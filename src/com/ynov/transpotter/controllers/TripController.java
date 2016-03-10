@@ -13,14 +13,14 @@ import com.ynov.transpotter.models.Trip;
 @RequestMapping("/trips")
 public class TripController {
 
-	private final static Logger logger = Logger.getLogger(TripController.class.getName());
+    private final static Logger logger = Logger.getLogger(TripController.class.getName());
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String getTrip(Model model) {
-		logger.info("getTrip");
-		model.addAttribute("form", new Trip());
-		model.addAttribute("statusOK", false);
-		model.addAttribute("statusMessage", "");
-		return "trip";
-	}
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String getTrip(Model model) {
+	logger.info("getTrip");
+	model.addAttribute("form", new Trip());
+	model.addAttribute("statusOK", false);
+	model.addAttribute("statusMessage", "");
+	return "trip";
+    }
 }

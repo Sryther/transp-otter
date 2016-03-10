@@ -1,1 +1,2 @@
-helpers/GeoHelperTest.class
+com/ynov/transpotter/helpers/GeoHelperTest.class
+com/ynov/transpotter/services/TripServiceTest.class
