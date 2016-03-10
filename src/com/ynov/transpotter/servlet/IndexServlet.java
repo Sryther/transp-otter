@@ -9,6 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.ynov.transpotter.exceptions.NegativeRadiusException;
+import com.ynov.transpotter.helpers.GeoHelper;
+import com.ynov.transpotter.models.Coordinates;
+
+
 
 /**
  * Servlet implementation class IndexServlet
@@ -53,10 +58,14 @@ public class IndexServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		System.out.println("okok");
 		
+	
+			
 		RequestDispatcher RequetsDispatcherObj = request.getRequestDispatcher("index.jsp");
 		RequetsDispatcherObj.forward(request, response);
 	}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

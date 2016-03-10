@@ -16,7 +16,7 @@ function init() {
 	} /*creation de la map*/ 
 	map = new google.maps.Map(document.getElementById("divMap"), myOptions); 
 	/*connexion de la map + le panneau de l'itinéraire*/ 
-	directionsDisplay.setMap(map); 
+	directionsDisplay.setMap(document.getElementById("divMap")); 
 	directionsDisplay.setPanel(document.getElementById("divRoute")); 
 	/*intialise le geocoder pour localiser les adresses */ 
 	geocoder = new google.maps.Geocoder(); 
