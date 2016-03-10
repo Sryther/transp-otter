@@ -9,10 +9,15 @@ public class GeoHelper {
 	static double radiusEarthPolar = 6356.752;
 	static double radiusEarthEquator = 6378.137;
 	
+	
+	
 	// On calcule le périmètre avec les deux rayons
 	static double perimeterEarthEquator = 2 * Math.PI * radiusEarthEquator;
 	static double perimeterEarthPolar = 2 * Math.PI * radiusEarthPolar;
-
+    //static double kmByDegreeLat =  perimeterEarthPolar / 360;
+    //static double kmByDegreeLon = perimeterEarthEquator / 360;
+	static double kmByDegreeLat = 124;
+	static double kmByDegreeLon = 85;
 	
 	/**
 	 * Johann PONSET - 2015
@@ -67,15 +72,17 @@ public class GeoHelper {
 	public static double getDistance(Coordinates position1, Coordinates position2){
         
 		// On calcule le modulo par 360 des valeurs entrées, 360° étant un tour de la terre
-		double position1Lat = position1.getLat() % 360;
-		double position1Lon = position1.getLon() % 360;
+		double position1Lat = position1.getLat();
+		double position1Lon = position1.getLon();
 		
-		double position2Lat = position2.getLat() % 360;
-		double position2Lon = position2.getLon() % 360;
+		double position2Lat = position2.getLat();
+		double position2Lon = position2.getLon();
 		
 		// On calcule à combien de kilomètres équivaut un degré GPS.
-        double kmByDegreeLat =  perimeterEarthPolar / 360;
-        double kmByDegreeLon = perimeterEarthEquator / 360;
+        double kmByDegreeLat =  perimeterEarthPolar / 359;
+        double kmByDegreeLon = perimeterEarthEquator / 359;
+        //kmByDegreeLat = 111;
+        //kmByDegreeLon = 111;
         
         // On calcule la différence de coordonnées entre le centre et le point donné.
         double differenceLat = Math.abs(position2Lat - position1Lat);
@@ -92,11 +99,45 @@ public class GeoHelper {
 	}
 	
 	
-	public static Coordinates getNearestOnSegment(double latitudeOrigine,double longitudeOrigne, double latitudeDest,double longitudeDest, double latitudeDest2, double longitudeDest2){
+	public static String getDistanceTest(double latitudeOrigine,double longitudeOrigne, double latitudeDest,double longitudeDest){
+        
+		// On calcule le modulo par 360 des valeurs entrées, 360° étant un tour de la terre
+		double position1Lat = latitudeOrigine % 359;
+		double position1Lon = longitudeOrigne % 359;
+		
+		double position2Lat = latitudeDest % 359;
+		double position2Lon = longitudeDest % 359;
+		
+		// On calcule à combien de kilomètres équivaut un degré GPS.
+        double kmByDegreeLat =  perimeterEarthPolar / 359;
+        double kmByDegreeLon = perimeterEarthEquator / 359;
+        kmByDegreeLat = 110;
+        kmByDegreeLon = 110;
+        
+        // On calcule la différence de coordonnées entre le centre et le point donné.
+        double differenceLat = Math.abs(position2Lat - position1Lat);
+        double differenceLon = Math.abs(position2Lon - position1Lon);
+        
+        // On traduit cette différence en KMs.
+        double differenceKmLat = differenceLat * kmByDegreeLat;
+        double differenceKmLon = differenceLon * kmByDegreeLon;
+      
+        // On peut enfin calculer la distance du centre à notre point.
+        double distanceKM = Math.sqrt(Math.pow(differenceKmLat, 2) + Math.pow(differenceKmLon, 2));
+        
+        return Double.toString(differenceKmLat)+" "+Double.toString(Math.pow(differenceKmLat, 2))+" "+Double.toString(Math.pow(differenceKmLon, 2))+" "+Double.toString(distanceKM);
+	}
+	
+	public static String getNearestOnSegment(double latitudeOrigine,double longitudeOrigne, double latitudeDest,double longitudeDest, double latitudeDest2, double longitudeDest2){
 		Coordinates returnCoord = null;
 		double angle1 = getAngle2(latitudeDest, longitudeDest, latitudeOrigine, longitudeOrigne, latitudeDest2, longitudeDest2);
 		double angle2 = getAngle2(latitudeDest2, longitudeDest2, latitudeOrigine, longitudeOrigne, latitudeDest, longitudeDest);
-		
+		double angleAlpha = -90;
+		double aire = 0;
+		double hauteur = 0;
+		double xPoint = 0;
+		double yPoint = 0;
+		double distanceFromDestToPoint = 0;
 		if(angle1 >= 90 || angle2 >= 90){
 			if(angle1 >= 90)
 				returnCoord = new Coordinates(longitudeDest, latitudeDest);
@@ -105,22 +146,37 @@ public class GeoHelper {
 		}
 		else{
 			//Si dans le segment
-			double aire = 	(	(	getDistance(new Coordinates(longitudeDest, latitudeDest), new Coordinates(longitudeOrigne, latitudeOrigine))
+			aire = 	(	(	getDistance(new Coordinates(longitudeDest, latitudeDest), new Coordinates(longitudeOrigne, latitudeOrigine))
 									*getDistance(new Coordinates(longitudeDest, latitudeDest), new Coordinates(longitudeDest2, latitudeDest2))
 								)/2)
 								*Math.sin(Math.toRadians(angle1));
-			double hauteur = (2*aire)/(getDistance(new Coordinates(longitudeDest, latitudeDest), new Coordinates(longitudeDest2, latitudeDest2)));
+			hauteur = (2*aire)/(getDistance(new Coordinates(longitudeDest, latitudeDest), new Coordinates(longitudeDest2, latitudeDest2)));
 			
-			double distanceFromDestToPoint = Math.sqrt(Math.pow(getDistance(new Coordinates(longitudeDest, latitudeDest), new Coordinates(longitudeOrigne, latitudeOrigine)), 2) - Math.pow(hauteur, 2));
+			distanceFromDestToPoint = Math.sqrt(Math.pow(getDistance(new Coordinates(longitudeDest, latitudeDest), new Coordinates(longitudeOrigne, latitudeOrigine)), 2) - Math.pow(hauteur, 2));
 			
+			angleAlpha = 90 - getAngle(latitudeDest, longitudeDest, latitudeDest2, longitudeDest2);
+
+			
+			yPoint =  longitudeDest + (Math.cos(Math.toRadians(angleAlpha))*distanceFromDestToPoint)/kmByDegreeLon;
+			xPoint =  latitudeDest + (Math.sin(Math.toRadians(angleAlpha))*distanceFromDestToPoint)/kmByDegreeLat;
+			
+			/*
+        // On calcule la différence de coordonnées entre le centre et le point donné.
+        double differenceLat = Math.abs(position2Lat - position1Lat);
+        double differenceLon = Math.abs(position2Lon - position1Lon);
+        
+        // On traduit cette différence en KMs.
+        double differenceKmLat = differenceLat * kmByDegreeLat;
+        double differenceKmLon = differenceLon * kmByDegreeLon;
+        */
 					
-			double xPoint = latitudeDest + ((distanceFromDestToPoint*(latitudeDest2-latitudeDest)/(Math.sqrt(Math.pow((latitudeDest-latitudeDest2),2)+Math.pow((longitudeDest-longitudeDest2),2)))));
+			//double xPoint = latitudeDest + ((distanceFromDestToPoint*(latitudeDest2-latitudeDest)/(Math.sqrt(Math.pow((latitudeDest-latitudeDest2),2)+Math.pow((longitudeDest-longitudeDest2),2)))));
 			
-			double yPoint = longitudeDest + ((distanceFromDestToPoint*(longitudeDest2-longitudeDest)/(Math.sqrt(Math.pow((latitudeDest-latitudeDest2),2)+Math.pow((longitudeDest-longitudeDest2),2)))));
+			//double yPoint = longitudeDest + ((distanceFromDestToPoint*(longitudeDest2-longitudeDest)/(Math.sqrt(Math.pow((latitudeDest-latitudeDest2),2)+Math.pow((longitudeDest-longitudeDest2),2)))));
 			returnCoord = new Coordinates(xPoint, yPoint);
 		}
 		
-		return returnCoord;
+		return Double.toString(getDistance(new Coordinates(longitudeDest, latitudeDest), new Coordinates(longitudeOrigne, latitudeOrigine)))+", "+Double.toString(Math.pow(getDistance(new Coordinates(longitudeDest, latitudeDest), new Coordinates(longitudeOrigne, latitudeOrigine)), 2))+" "+Double.toString(Math.pow(hauteur, 2))+" "+Double.toString(hauteur)+", "+Double.toString(distanceFromDestToPoint)+", "+ Double.toString(xPoint)+", "+Double.toString(yPoint);
 	
 	
 	}

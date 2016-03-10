@@ -3,8 +3,8 @@
 <%
 
 
-System.out.println("kansas : "+GeoHelper.getNearestOnSegment(43.595265, 1.434293, 43.181034, 3.020214, 45.796897, 1.215073));
-
+System.out.println("raliement : "+GeoHelper.getNearestOnSegment(44.3591281, 2.5523449, 43.181034, 3.020214, 43.595265, 1.434293 ));
+System.out.println("raliement : "+GeoHelper.getDistanceTest(43.628358, 1.465174, 43.584346, 1.451786));
 %>
 		    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 		    <html>
