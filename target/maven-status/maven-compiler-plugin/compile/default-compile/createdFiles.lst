@@ -1,3 +1,9 @@
+com/ynov/transpotter/controllers/LoginController.class
 com/ynov/transpotter/exceptions/NegativeRadiusException.class
-com/ynov/transpotter/helpers/GeoHelper.class
+com/ynov/transpotter/services/User.class
+com/ynov/transpotter/models/User.class
+com/ynov/transpotter/controllers/TripController.class
 com/ynov/transpotter/models/Coordinates.class
+com/ynov/transpotter/models/Trip.class
+com/ynov/transpotter/helpers/GeoHelper.class
+com/ynov/transpotter/services/TripService.class
